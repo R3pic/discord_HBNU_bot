@@ -3,7 +3,6 @@ import getTodayHBNUMeals from "./getTodayHBNUMeals.js";
 import {getMealEmbeds} from "../embed/MealEmbed.js";
 
 export const sendTodayMeal = async (client) => {
-    try {
         const guild = (process.env.GUILD_ID && client.guilds.cache.get(process.env.GUILD_ID)) || client.guilds.cache.first();
         if (!guild) {
             logger.error('Guild not found.');
@@ -29,11 +28,11 @@ export const sendTodayMeal = async (client) => {
         }
 
         const meals = await getTodayHBNUMeals();
+        if (meals === undefined){
+            console.debug("Meals not found");
+            throw new Error("Meal Is undefined");
+        }
         const embed = getMealEmbeds(meals);
         await channel.send({ embeds: [embed] });
         logger.debug("Successfully sendTodayMeal");
-
-    } catch (error) {
-        logger.error('Error sending meal information:', error);
-    }
 }

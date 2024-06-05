@@ -3,6 +3,7 @@ import logger from "../logger/logger.js";
 
 const url = "https://www.hanbat.ac.kr/prog/carteGuidance/kor/sub06_030301/C1/calendar.do";
 
+// Console.log에 존재하는 객체를 이용함.
 const getTodayHBNUMeals = async () => {
     try {
         const browser = await puppeteer.launch();
@@ -36,7 +37,8 @@ const getTodayHBNUMeals = async () => {
             dinner: dinner[key],
         }
     } catch (error) {
-        logger.error('Log Parse', error);
+        logger.error('Error: ', error);
+        return undefined;
     }
 };
 
