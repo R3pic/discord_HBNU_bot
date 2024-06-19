@@ -8,7 +8,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 });
 
 const LoggerConfig = {
-    dev: {
+    development: {
         level: 'debug',
         format: combine(
             colorize(),
@@ -16,7 +16,7 @@ const LoggerConfig = {
             logFormat
         )
     },
-    product: {
+    production: {
         level: 'info',
         format: combine(
             timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
