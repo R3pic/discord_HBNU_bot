@@ -1,6 +1,6 @@
 import logger from "../logger/logger.js";
-import getTodayHBNUMeals from "./getTodayHBNUMeals.js";
 import {getMealEmbeds} from "../embed/MealEmbed.js";
+import getTodayMeal from "./getTodayMeal.js";
 
 export const sendTodayMeal = async (client) => {
         const guild = (process.env.GUILD_ID && client.guilds.cache.get(process.env.GUILD_ID)) || client.guilds.cache.first();
@@ -27,12 +27,20 @@ export const sendTodayMeal = async (client) => {
             return;
         }
 
-        const meals = await getTodayHBNUMeals();
-        if (meals === undefined){
-            console.debug("Meals not found");
-            throw new Error("Meal Is undefined");
+        const TodayMealData = await getTodayMeal();
+        logger.debug(`TodayMealData : ${JSON.stringify(TodayMealData, null, 2)}`);
+
+        if (TodayMealData === undefined){
+            logger.debug("TodayMealData is undefined!");
+            throw new Error("Meal Is undefined Something wrong.");
         }
-        const embed = getMealEmbeds(meals);
+
+        if (TodayMealData.lunch === "" && TodayMealData.dinner === "") { // 비어있으면 뭔가 운영을 하지 않는 것으로 판단. Embed보내지않음.
+            logger.info("Todaymeal.lunch or .dinner is \"\"");
+            return;
+        }
+
+        const embed = getMealEmbeds(TodayMealData);
         await channel.send({ embeds: [embed] });
         logger.debug("Successfully sendTodayMeal");
 }

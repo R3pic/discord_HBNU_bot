@@ -3,10 +3,16 @@ import logger from "../logger/logger.js";
 
 const url = "https://www.hanbat.ac.kr/prog/carteGuidance/kor/sub06_030301/C1/calendar.do";
 
-// Console.log에 존재하는 객체를 이용함.
+/*
+ * console.log에 존재하는 데이터를 이용하여 작동하는 함수. getTodayMeal과 결과물이 다르다.
+ * !! TodayMeal클래스의 인스턴스를 반환하지 않음 !!
+ * @deprecated using getTodayMeals
+ */
 const getTodayHBNUMeals = async () => {
     try {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            executablePath: "/usr/bin/chromium-browser"
+        });
         const page = await browser.newPage();
 
         let log_data;

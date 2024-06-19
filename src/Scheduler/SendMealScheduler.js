@@ -10,9 +10,9 @@ const set_up = (client) => {
         try {
             await sendTodayMeal(client);
             retries = 0;
-            logger.info("Meal sent successfully.");
+            logger.info("Scheduler : SendMeal Ended");
         } catch (err) {
-            console.log(err);
+            logger.error(err);
             retries += 1;
             logger.error(`Error sending meal Schedule, retry (${retries}/${maxRetries})`);
             if (retries < maxRetries) {
@@ -23,9 +23,11 @@ const set_up = (client) => {
             }
         }
     };
+    // 환경에 따라 스케줄 문자열 설정
+    const ScheduleString = process.env.NODE_ENV === "production" ? "0 11 * * 1-5" : "* * * * *";
+    logger.debug(`SchedulerString : ${ScheduleString}`);
 
-    nodeCron.schedule('0 11 * * 1-5', async () => { // 평일 오전 11시에 전송
-    // nodeCron.schedule('* * * * *', async () => {
+    nodeCron.schedule(ScheduleString, async () => {
         await SendMeal();
     });
 

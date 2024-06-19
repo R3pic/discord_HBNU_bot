@@ -1,4 +1,4 @@
-import 'dotenv/config'; // 가장 먼저 실행되게함.
+import 'dotenv/config';
 import logger from './logger/logger.js';
 import Bot from "./bot/bot.js";
 

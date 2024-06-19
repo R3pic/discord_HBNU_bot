@@ -14,7 +14,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 const init = async () => {
     await read_events();
     await register_command();
-    if (process.env.API_UPDATE)
+    if (process.env.API_UPDATE === "true")
         await bot_api_update();
 }
 
